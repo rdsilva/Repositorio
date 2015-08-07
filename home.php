@@ -35,9 +35,7 @@
         <!-- nice scroll -->
         <script src="js/jquery.scrollTo.min.js"></script>
         <script src="js/jquery.nicescroll.js" type="text/javascript"></script><!--custome script for all page-->
-        <script src="js/scripts.js"></script>
-
-
+       
 
     </head>
 
@@ -336,6 +334,7 @@
                     </ul>
                     <!-- notificatoin dropdown end-->
                 </div>
+                    <!--<span>DESCONECTADO</span>-->
             </header>      
             <!--header end-->
 
@@ -344,13 +343,13 @@
                 <div id="sidebar"  class="nav-collapse ">
                     <!-- sidebar menu start-->
                     <ul class="sidebar-menu">                
-                        <li class="">
+                        <li class="active">
                             <a class="" href="index.php">
                                 <i class="icon_house_alt"></i>
                                 <span>Home</span>
                             </a>
                         </li>
-                        <li class="">
+                        <li>
                             <a class="" href="index.php">
                                 <i class="icon_documents_alt"></i>
                                 <span>Historico</span>
@@ -375,9 +374,8 @@
                                 <span class="menu-arrow arrow_carrot-right"></span>
                             </a>
                             <ul class="sub">
-                                <li><a class="" href="general.html">Components</a></li>
-                                <li><a class="" href="buttons.html">Buttons</a></li>
-                                <li><a class="" href="grids.html">Grids</a></li>
+                                <li><a class="" href="#">Equipe</a></li>
+                                <li><a class="" href="#">Projetos</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -430,12 +428,27 @@
                             <div class="col-lg-4 col-md-4 col-sm-4" style="overflow: hidden">
                                 <section class="panel">
                                     <header class="panel-heading">
-                                        Controle
+                                        <div class="col-lg-6" style="padding-left: 0px">
+                                            Controle
+                                        </div>
+                                        <div class="col-lg-6 text-right" style="padding-right: 0px">
+                                            <span class="label label-danger">DESCONECTADO</span>
+                                        </div>
                                     </header>
                                     <div class="panel-body text-center">
                                         <div class="flot-chart">
                                             <div class="form-group">
-                                                <div class="row m-bot15" style="padding-top: 12px; padding-bottom: 10px">
+                                                <div class="row m-bot15" style="padding-top: 2px; padding-bottom: 1px">
+                                                    <div class="col-sm-6 text-right">
+                                                        <h4>CONECTAR</h4>
+                                                    </div>
+                                                    <div class="col-sm-6 text-left" style="padding-top: 7px">
+                                                        <input type="checkbox" data-toggle="switch" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row m-bot15" style="padding-top: 1px">
                                                     <div class="col-sm-6 text-right">
                                                         <h4>EMERGÊNCIA</h4>
                                                     </div>
@@ -445,37 +458,37 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="row m-bot15" style="padding-top: 6px;">
+                                                <div class="row m-bot15" style="padding-top: 1px;">
                                                     <div class="col-sm-6 text-right">
                                                         <h4>Nível Tanque 01</h4>
                                                     </div>
                                                     <div class="col-sm-6 text-left">
-                                                        <input class="form-control input-lg m-bot15" type="number" min="-4" max="4" step="0.1" style="width: 80px;" />
+                                                        <input class="form-control input-lg m-bot15" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80px;" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="row m-bot15" style="padding-top: 6px;">
+                                                <div class="row m-bot15" style="padding-top: 1px;">
                                                     <div class="col-sm-6 text-right">
                                                         <h4>Nível Tanque 02</h4>
                                                     </div>
                                                     <div class="col-sm-6 text-right">
-                                                        <input class="form-control input-lg m-bot15" type="number" min="-4" max="4" step="0.1" style="width: 80px;" />
+                                                        <input class="form-control input-lg m-bot15" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80px;" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="row m-bot15" style="padding-top: 6px;">
+                                                <div class="row m-bot15" style="padding-top: 1px;">
                                                     <div class="col-sm-6 text-right">
                                                         <h4>Tensão Bomba</h4>
                                                     </div>
                                                     <div class="col-sm-6 text-right">
-                                                        <input class="form-control input-lg m-bot15" type="number" min="-4" max="4" step="0.1" style="width: 80px;" />
+                                                        <input class="form-control input-lg m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80px;" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="row m-bot15" style="padding-top: 10px; padding-bottom: 12px">
+                                                <div class="row m-bot15" style="padding-top: 1px; padding-bottom: 1px">
                                                     <div class="col-sm-6 text-right">
                                                         <h4>MALHA ABERTA</h4>
                                                     </div>
