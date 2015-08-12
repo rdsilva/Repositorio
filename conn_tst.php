@@ -2,7 +2,7 @@
 
 header("Content-type: text/html; charset=utf-8");
 
-$ip = '169.254.98.108';
+$ip = '179.156.26.52';
 $port = 8001;
 
 if (!($sock = socket_create(AF_INET, SOCK_STREAM, 0))) {

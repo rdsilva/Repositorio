@@ -46,6 +46,11 @@
             if (chkbox.checked)
             {
                 div.innerHTML = '<span class="label label-success">HOST - 127.0.0.1</span>';
+                
+                $.get("getData.php?sensor=1", function (data) {
+                    alert(data);
+                });
+                
             } else {
                 div.innerHTML = '<span class="label label-danger">DESCONECTADO</span>';
             }
@@ -64,6 +69,8 @@
         <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
         <script type="text/javascript">
+
+        //tanque 1
         $(function () {
             $('#chart_tanque1').highcharts({
                 title: {
@@ -122,6 +129,8 @@
                 },
             });
         });
+
+        //tanque 2
         $(function () {
             $('#chart_tanque2').highcharts({
                 title: {
@@ -180,6 +189,8 @@
                 }
             });
         });
+
+        //bomba
         $(function () {
             $('#chart_bomba').highcharts({
                 chart: {
@@ -413,11 +424,6 @@
                                     <div class="flot-chart">
                                         <div id="chart_tanque1" style="margin: 0 auto"></div>
                                     </div>
-                                    <div class="row" style="padding-top: 10px;">
-                                        <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
-                                        </div>
-                                    </div>
                                 </div>
                             </section>
                         </div>
@@ -430,11 +436,6 @@
                                     <div class="flot-chart">
                                         <div id="chart_tanque2" style="margin: 0 auto"></div>
                                     </div>
-                                    <div class="row" style="padding-top: 10px;">
-                                        <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
-                                        </div>
-                                    </div>
                                 </div>
                             </section>
                         </div>
@@ -446,11 +447,6 @@
                                 <div class="panel-body text-center">
                                     <div class="flot-chart">
                                         <div id="chart_bomba" style="margin: 0 auto"></div>
-                                    </div>
-                                    <div class="row" style="padding-top: 10px;">
-                                        <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
-                                        </div>
                                     </div>
                                 </div>
                             </section>
@@ -488,6 +484,36 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <div class="row m-bot15" style="padding-top: 1px;">
+                                                <div class="col-sm-6 text-right">
+                                                    <h4>Nível Tanque 01</h4>
+                                                </div>
+                                                <div class="col-sm-6 text-left">
+                                                    <input class="form-control input-lg m-bot15" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80px;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row m-bot15" style="padding-top: 1px;">
+                                                <div class="col-sm-6 text-right">
+                                                    <h4>Nível Tanque 02</h4>
+                                                </div>
+                                                <div class="col-sm-6 text-right">
+                                                    <input class="form-control input-lg m-bot15" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80px;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row m-bot15" style="padding-top: 1px;">
+                                                <div class="col-sm-6 text-right">
+                                                    <h4>Tensão Bomba</h4>
+                                                </div>
+                                                <div class="col-sm-6 text-right">
+                                                    <input class="form-control input-lg m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80px;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <div class="row m-bot15" style="padding-top: 1px; padding-bottom: 1px">
                                                 <div class="col-sm-6 text-right">
                                                     <h4>MALHA ABERTA</h4>
@@ -500,25 +526,53 @@
                                     </div>
                                 </div>
                             </section>
-                            <div class="row">
-                                <div class="col-lg-12" style="overflow: hidden">
-                                    <section class="panel">
-                                        <header class="panel-heading">
-                                            Sinal
-                                        </header>
-                                        <div class="panel-body text-center">
-                                          <select class="form-control input-sm m-bot15">
-                                              <option>Sinal 1</option>
-                                              <option>Sinal 2</option>
-                                              <option>Sinal 3</option>
-                                              <option>Sinal 4</option>
-                                          </select>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
                         </div>
                         <!--</div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6" style="overflow: hidden">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    Sinal
+                                </header>
+                                <div class="panel-body text-center">
+                                    <!--                                    <div class="flot-chart">
+                                                                            <div id="chart_tanque1" style="margin: 0 auto"></div>
+                                                                        </div>-->
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-6" style="overflow: hidden">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    Log
+                                </header>
+                                <div class="panel-body text-center">
+                                    <div class="profile-activity">                                          
+                                        <div class="act-time">                                      
+                                            <div class="activity-body act-in">
+                                                <span class="arrow"></span>
+                                                <div class="text">
+                                                    <a href="#" class="activity-img"><img class="avatar" src="img/rodrigo_log.jpg" alt=""></a>
+                                                    <p class="attribution"><a href="#">Rodrigo Silva</a>4:25pm, 30 de Agosto de 2015</p>
+                                                    <p>Planta abortada</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="act-time">                                      
+                                            <div class="activity-body act-in">
+                                                <span class="arrow"></span>
+                                                <div class="text">
+                                                    <a href="#" class="activity-img"><img class="avatar" src="img/rodrigo_log.jpg" alt=""></a>
+                                                    <p class="attribution"><a href="#">Rodrigo Silva</a>4:26pm, 30 de Agosto de 2015</p>
+                                                    <p>Planta reiniciada</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
                     </div>
                 </section>
             </section>
