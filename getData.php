@@ -3,7 +3,7 @@
 require('./socket.php');
 require('./socketClient.php');
 
-$socket = new socketClient('179.156.26.52', 8001);
+$socket = new socketClient('localhost', 8001);
 
 
 if (isset($_GET['sensor'])) {
@@ -23,19 +23,23 @@ if (isset($_GET['bomba'])) {
             'tensao' => '' . $setPoint . '',
         );
         $socket->send(json_encode($packet));
+        echo json_encode(floatval($setPoint));
     }
 }
 
 if (isset($_GET['tanque'])) {
     if (isset($_GET['nivel'])) {
         $setPoint = $_GET['nivel'];
+        $setTanque = $_GET['tanque'];
 
 //        enviando o comando para o servidor
         $packet = array(
             'OP' => '2',
-            'tanque' => '2',
-            'altura' => '20',
+            'tanque' => '' . $setTanque . '',
+            'altura' => '' . $setPoint . '',
         );
-        $socket->send(json_encode($packet));
+        $response = $socket->send(json_encode($packet));
+        $nivel = json_decode($response, true)['response'];
+        echo json_encode(floatVal($nivel));
     }
 }

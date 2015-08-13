@@ -3,7 +3,7 @@
 require('./socket.php');
 require('./socketClient.php');
 
-$socket = new socketClient('179.156.26.52', 8001);
+$socket = new socketClient('10.13.100.109', 8001);
 
 //$packet = array('Pablo'    => 'Muito VIADO',
 //                );
