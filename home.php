@@ -47,9 +47,9 @@
             {
                 div.innerHTML = '<span class="label label-success">HOST - 127.0.0.1</span>';
 
-                $.get("getData.php?sensor=1", function (data) {
-                    alert(data);
-                });
+//                $.get("getData.php?sensor=1", function (data) {
+//                    alert(data);
+//                });
 
             } else {
                 div.innerHTML = '<span class="label label-danger">DESCONECTADO</span>';
@@ -57,15 +57,6 @@
 
 //            document.getElementById("conectarDiv").innerHTML = '<span class="label label-success">HOST - 127.0.0.1</span>';
         }
-
-//        function setValueTQ1(){
-//            var urlMap = "getData.php?tanque=2";
-//            $.getJSON(urlMap, function (data) {
-//                $('#chart_tanque1').highcharts().series[0].points[0].update(data);
-//                console.log(data);
-//            });
-//        }
-
     </script>
 
 
@@ -125,7 +116,7 @@
                 },
                 series: [{
                         name: 'Nível ',
-                        data: [2.1],
+                        data: [0.0],
                         tooltip: {
                             valueSuffix: ' cm'
                         }
@@ -141,20 +132,12 @@
                 if (!chart.renderer.forExport) {
                     setInterval(function () {
                         var point = chart.series[0].points[0];//,
-                        //        newVal,
-                        //inc = Math.round((Math.random() - 0.5) * 10);
-
-                        //newVal = point.y + inc;
-                        //if (newVal > 0 || newVal < 24) {
-                        //    newVal = point.y - inc;
-                        //}
-
-                        var urlMap = "getData.php?tanque=2";
+                        var setPoint = document.getElementById("iptq1").value;
+                        var urlMap = "getData.php?tanque=0&nivel=" + setPoint;
+                        console.log(urlMap);
                         $.getJSON(urlMap, function (data) {
                             point.update(data);
                         });
-
-//                        point.update(newVal);
 
                     }, 500);
                 }
@@ -204,14 +187,9 @@
                         }
                     }
                 },
-//                    plotOptions: {
-//                        column: {
-//                            stacking: 'normal'
-//                        }
-//                    },
                 series: [{
                         name: 'Nível ',
-                        data: [2.1],
+                        data: [0.0],
                         tooltip: {
                             valueSuffix: ' cm'
                         }
@@ -222,22 +200,19 @@
                 credits: {
                     enabled: false
                 }
-            },
+            }, 
             function (chart) {
                 if (!chart.renderer.forExport) {
                     setInterval(function () {
-                        var point = chart.series[0].points[0],
-                                newVal,
-                                inc = Math.round((Math.random() - 0.5) * 10);
+                        var point = chart.series[0].points[0];//,
+                        var setPoint = document.getElementById("iptq2").value;
+                        var urlMap = "getData.php?tanque=1&nivel=" + setPoint;
+                        console.log(urlMap);
+                        $.getJSON(urlMap, function (data) {
+                            point.update(data);
+                        });
 
-                        newVal = point.y + inc;
-                        if (newVal > 0 || newVal < 24) {
-                            newVal = point.y - inc;
-                        }
-
-                        point.update(newVal);
-
-                    }, 3000);
+                    }, 500);
                 }
             });
         });
@@ -339,29 +314,26 @@
                 },
                 series: [{
                         name: 'Tensão ',
-                        data: [2.1],
+                        data: [0.0],
                         tooltip: {
                             valueSuffix: ' Volts'
                         }
                     }]
 
             },
-            // Add some life
+            // Add some life             
             function (chart) {
                 if (!chart.renderer.forExport) {
                     setInterval(function () {
-                        var point = chart.series[0].points[0],
-                                newVal,
-                                inc = Math.round((Math.random() - 0.5) * 10);
+                        var point = chart.series[0].points[0];//,
+                        var setPoint = document.getElementById("voltimetro").value;
+                        var urlMap = "getData.php?bomba=1&tensao=" + setPoint;
+                        console.log(urlMap);
+                        $.getJSON(urlMap, function (data) {
+                            point.update(data);
+                        });
 
-                        newVal = point.y + inc;
-                        if (newVal < -4 || newVal > 4) {
-                            newVal = point.y - inc;
-                        }
-
-                        point.update(newVal);
-
-                    }, 3000);
+                    }, 500);
                 }
             });
         });
@@ -495,7 +467,7 @@
                                     </div>
                                     <div class="row" style="padding-top: 10px;">
                                         <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                            <input class="form-control input-sm m-bot15" id="iptq2" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                         </div>
                                     </div>
                                 </div>
@@ -512,7 +484,7 @@
                                     </div>
                                     <div class="row" style="padding-top: 10px;">
                                         <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                            <input class="form-control input-sm m-bot15" id="voltimetro" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                         </div>
                                     </div>
                                 </div>
@@ -580,13 +552,13 @@
                                                 <div class="col-lg-6" style="overflow: hidden">
                                                     <div class="row" style="padding-top: 10px;">
                                                         <div class="text-center">
-                                                            Amplitute
+                                                            Amplitute (V)
                                                             <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                         </div>
                                                     </div>
                                                     <div class="row" style="padding-top: 10px;">
                                                         <div class="text-center">
-                                                            Período
+                                                            Período (s)
                                                             <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                         </div>
                                                     </div>

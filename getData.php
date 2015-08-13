@@ -12,22 +12,30 @@ if (isset($_GET['sensor'])) {
 //    echo $socket->send(json_encode($packet));
 }
 
+//setando valor de tensão para a bomba
 if (isset($_GET['bomba'])) {
-    $bomba = $_GET['bomba'];
-    echo 'funcionando bomba' . $bomba;
+    if (isset($_GET['tensao'])) {
+        $setPoint = $_GET['tensao'];
+
+        //enviando o comando para o servidor
+        $packet = array(
+            'OP' => '0',
+            'tensao' => '' . $setPoint . '',
+        );
+        $socket->send(json_encode($packet));
+    }
 }
 
 if (isset($_GET['tanque'])) {
-//    $tanque = $_GET['tanque'];
-//    echo 'funcionando tanque' . $tanque;
+    if (isset($_GET['nivel'])) {
+        $setPoint = $_GET['nivel'];
 
-    $result = array();
-
-    $temp = array();
-
-    $temp['value'] = floatval(12.3);
-
-    array_push($result, $temp);
-
-    echo json_encode(floatVal(rand(1, 15).'.'.rand(1, 9)));
+//        enviando o comando para o servidor
+        $packet = array(
+            'OP' => '2',
+            'tanque' => '2',
+            'altura' => '20',
+        );
+        $socket->send(json_encode($packet));
+    }
 }
