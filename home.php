@@ -57,6 +57,38 @@
 
 //            document.getElementById("conectarDiv").innerHTML = '<span class="label label-success">HOST - 127.0.0.1</span>';
         }
+
+        function tanque_sup() {
+            var chart = $('#chart_tanque1').highcharts();
+            var point = chart.series[0].points[0];//,
+            var setPoint = document.getElementById("iptq1").value;
+            var urlMap = "getData.php?tanque=0&nivel=" + setPoint;
+            console.log(urlMap);
+            $.getJSON(urlMap, function (data) {
+                point.update(data);
+            });
+        }
+        function tanque_inf() {
+            var chart = $('#chart_tanque2').highcharts();
+            var point = chart.series[0].points[0];//,
+            var setPoint = document.getElementById("iptq2").value;
+            var urlMap = "getData.php?tanque=1&nivel=" + setPoint;
+            console.log(urlMap);
+            $.getJSON(urlMap, function (data) {
+                point.update(data);
+            });
+        }
+        function bomba() {
+            var chart = $('#chart_bomba').highcharts();
+            var point = chart.series[0].points[0];//,
+            var setPoint = document.getElementById("voltimetro").value;
+            var urlMap = "getData.php?bomba=1&tensao=" + setPoint;
+            console.log(urlMap);
+            $.getJSON(urlMap, function (data) {
+                point.update(data);
+            });
+        }
+
     </script>
 
 
@@ -127,21 +159,22 @@
                 credits: {
                     enabled: false
                 }
-            },
-            function (chart) {
-                if (!chart.renderer.forExport) {
-                    setInterval(function () {
-                        var point = chart.series[0].points[0];//,
-                        var setPoint = document.getElementById("iptq1").value;
-                        var urlMap = "getData.php?tanque=0&nivel=" + setPoint;
-                        console.log(urlMap);
-                        $.getJSON(urlMap, function (data) {
-                            point.update(data);
-                        });
-
-                    }, 500);
-                }
-            });
+            }
+//            ,function (chart) {
+//                if (!chart.renderer.forExport) {
+//                    setInterval(function () {
+//                        var point = chart.series[0].points[0];//,
+//                        var setPoint = document.getElementById("iptq1").value;
+//                        var urlMap = "getData.php?tanque=0&nivel=" + setPoint;
+//                        console.log(urlMap);
+//                        $.getJSON(urlMap, function (data) {
+//                            point.update(data);
+//                        });
+//
+//                    }, 500);
+//                }
+//            }
+            );
         });
 
         //tanque 02
@@ -200,21 +233,22 @@
                 credits: {
                     enabled: false
                 }
-            }, 
-            function (chart) {
-                if (!chart.renderer.forExport) {
-                    setInterval(function () {
-                        var point = chart.series[0].points[0];//,
-                        var setPoint = document.getElementById("iptq2").value;
-                        var urlMap = "getData.php?tanque=1&nivel=" + setPoint;
-                        console.log(urlMap);
-                        $.getJSON(urlMap, function (data) {
-                            point.update(data);
-                        });
-
-                    }, 500);
-                }
-            });
+            }
+//            ,function (chart) {
+//                if (!chart.renderer.forExport) {
+//                    setInterval(function () {
+//                        var point = chart.series[0].points[0];//,
+//                        var setPoint = document.getElementById("iptq2").value;
+//                        var urlMap = "getData.php?tanque=1&nivel=" + setPoint;
+//                        console.log(urlMap);
+//                        $.getJSON(urlMap, function (data) {
+//                            point.update(data);
+//                        });
+//
+//                    }, 500);
+//                }
+//            }
+            );
         });
 
         //bomba
@@ -320,22 +354,22 @@
                         }
                     }]
 
-            },
-            // Add some life             
-            function (chart) {
-                if (!chart.renderer.forExport) {
-                    setInterval(function () {
-                        var point = chart.series[0].points[0];//,
-                        var setPoint = document.getElementById("voltimetro").value;
-                        var urlMap = "getData.php?bomba=1&tensao=" + setPoint;
-                        console.log(urlMap);
-                        $.getJSON(urlMap, function (data) {
-                            point.update(data);
-                        });
+            }
+//            ,function (chart) {
+//                if (!chart.renderer.forExport) {
+//                    setInterval(function () {
+//                        var point = chart.series[0].points[0];//,
+//                        var setPoint = document.getElementById("voltimetro").value;
+//                        var urlMap = "getData.php?bomba=1&tensao=" + setPoint;
+//                        console.log(urlMap);
+//                        $.getJSON(urlMap, function (data) {
+//                            point.update(data);
+//                        });
 
-                    }, 500);
-                }
-            });
+//                    }, 500);
+//                }
+//            }
+            );
         });
         </script>
 
@@ -450,7 +484,7 @@
                                     </div>
                                     <div class="row" style="padding-top: 10px;">
                                         <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" id="iptq1" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                            <input class="form-control input-sm m-bot15" id="iptq1" onchange="tanque_sup()" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                         </div>
                                     </div>
                                 </div>
@@ -467,7 +501,7 @@
                                     </div>
                                     <div class="row" style="padding-top: 10px;">
                                         <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" id="iptq2" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                            <input class="form-control input-sm m-bot15" id="iptq2" onchange="tanque_inf()" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                         </div>
                                     </div>
                                 </div>
@@ -484,7 +518,7 @@
                                     </div>
                                     <div class="row" style="padding-top: 10px;">
                                         <div class="text-center">
-                                            <input class="form-control input-sm m-bot15" id="voltimetro" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                            <input class="form-control input-sm m-bot15" id="voltimetro" onchange="bomba()" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                         </div>
                                     </div>
                                 </div>
