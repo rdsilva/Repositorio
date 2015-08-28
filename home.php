@@ -58,17 +58,17 @@
         function tanque_sup() {
             var chart = $('#chart_tanque1').highcharts();
             var point = chart.series[0].points[0]; //,
-            var setPoint = document.getElementById("iptq1").value;
+            var setPoint = document.getElementById("sptq1").value;
             var urlMap = "getData.php?tanque=0&nivel=" + setPoint;
-            console.log(urlMap);
-            $.getJSON(urlMap, function (data) {
-                point.update(data);
-            });
+//            console.log(urlMap);
+//            $.getJSON(urlMap, function (data) {
+//                point.update(data);
+//            });
         }
         function tanque_inf() {
             var chart = $('#chart_tanque2').highcharts();
             var point = chart.series[0].points[0]; //,
-            var setPoint = document.getElementById("iptq2").value;
+            var setPoint = document.getElementById("sptq2").value;
             var urlMap = "getData.php?tanque=1&nivel=" + setPoint;
             console.log(urlMap);
             $.getJSON(urlMap, function (data) {
@@ -89,44 +89,17 @@
 
             if (chkbox.checked)
             {
-                document.getElementById('iptq1').disable = false;
-                document.getElementById('iptq2').disable = false;
-                document.getElementById('voltimetro').disable = false;
+                document.getElementById("malha").innerHTML = '<img src="img/malha_aberta.png" style="width: 275px;"> ';
+                $('#div_malha_select :input').attr('disabled', true);
+                $('#div_sinal :input').removeAttr('disabled');
             } else {
-                document.getElementById('iptq1').disable = true;
-                document.getElementById('iptq2').disable = true;
-                document.getElementById('voltimetro').disable = true;
+                document.getElementById("malha").innerHTML = '<img src="img/malha_fechada.png" style="width: 275px;"> ';
+                $('#div_malha_select :input').removeAttr('disabled');
+                $('#div_sinal :input').attr('disabled', true);
             }
 
         }
-
-        function updateTst() {
-            var chart = $('#sinais').highcharts();
-            var series1 = chart.series[0];
-            var series2 = chart.series[1];
-            var series3 = chart.series[2];
-            var series4 = chart.series[3];
-            setInterval(function () {
-                var x = (new Date()).getTime();
-
-                var y1 = Math.random();
-                series1.addPoint([x, y1], true, true);
-                console.log([x, y1]);
-
-                var y2 = Math.random();
-                series2.addPoint([x, y2], true, true);
-                console.log([x, y1]);
-
-                var y3 = Math.random();
-                series3.addPoint([x, y3], true, true);
-                console.log([x, y1]);
-
-                var y4 = Math.random();
-                series4.addPoint([x, y4], true, true);
-                console.log([x, y1]);
-            }, 1000);
-        }
-
+        
     </script>
 
 
@@ -410,7 +383,7 @@
 //            }
             );
         });
-        //sinais - LEITURA TANQUE 1
+        //sinais
         $(function () {
             $(document).ready(function () {
                 Highcharts.setOptions({
@@ -420,20 +393,28 @@
                 });
 
                 // Create the chart
-                $('#leitura_tq_1').highcharts('StockChart', {
+                $('#sinaisxxx').highcharts('StockChart', {
                     chart: {
                         events: {
                             load: function () {
 
-                                // set up the updating of the chart each second
-                                var series = this.series[0];
+                                // set up the updating of SP. PV, MV
+                                var series1 = this.series[0];
+                                var series2 = this.series[1];
+                                var series3 = this.series[2];
                                 setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                            y = Math.round(Math.random() * 100);
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
+//                                    var x = (new Date()).getTime();
+//                                    var y1 = Math.round(Math.random() * 100);
+//                                    var y2 = Math.round(Math.random() * 100);
+//                                    var y3 = Math.round(Math.random() * 100);
+//                                    series1.addPoint([x, y1], true, true);
+//                                    series2.addPoint([x, y2], true, true);
+//                                    series3.addPoint([x, y3], true, true);
+                                }, 2000);
+
                             }
-                        }
+                        },
+                        height: 280,
                     },
                     rangeSelector: {
                         buttons: [{
@@ -460,294 +441,87 @@
                     credits: {
                         enabled: false
                     },
+                    tooltip: {
+                        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                        valueDecimals: 2
+                    },
+                    yAxis: {
+                        min: 0,
+                        max: 30,
+                        startOnTick: false,
+                        endOnTick: false
+                    },
                     series: [{
-                            name: 'Nível ',
+                            name: 'SP ',
+                            color: 'black',
                             data: (function () {
                                 // generate an array of random data
-                                var data = [], time = (new Date()).getTime(), i;
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
 
-                                for (i = -999; i <= 0; i += 1) {
-                                    data.push([
-                                        time + i * 1000,
-                                        Math.round(Math.random() * 100)
-                                    ]);
+                                for (i = -29; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: 0
+                                    });
+                                }
+                                return data;
+                            }())
+                        }, {
+                            name: 'PV ',
+                            color: 'green',
+                            data: (function () {
+                                // generate an array of random data
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
+
+                                for (i = -29; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: 0
+                                    });
+                                }
+                                return data;
+                            }())
+                        }, {
+                            name: 'MV ',
+                            color: 'red',
+                            data: (function () {
+                                // generate an array of random data
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
+
+                                for (i = -29; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: 0
+                                    });
                                 }
                                 return data;
                             }())
                         }]
                 });
-            });
-        });
-        //sinais - LEITURA TANQUE 2
-        $(function () {
-            $(document).ready(function () {
-                Highcharts.setOptions({
-                    global: {
-                        useUTC: false
-                    }
+
+                $(document).ready(function () {
+                    var chart = $('#sinais').highcharts();
+                    var sinalSP = chart.series[0];
+                    var sinalPV = chart.series[1];
+                    var sinalMV = chart.series[2];
+                    setInterval(function () {
+                        var x = (new Date()).getTime();
+
+                        var setPoint = Number(document.getElementById("sptq1").value);
+
+                        sinalSP.addPoint([x, setPoint], true, true);
+                        sinalPV.addPoint([x, 0], true, true);
+                        sinalMV.addPoint([x, 0], true, true);
+                        console.log('X=0 ; Y=' + setPoint);
+                    }, 1000);
                 });
 
-                // Create the chart
-                $('#leitura_tq_2').highcharts('StockChart', {
-                    chart: {
-                        events: {
-                            load: function () {
-
-                                // set up the updating of the chart each second
-                                var series = this.series[0];
-                                setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                            y = Math.round(Math.random() * 100);
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
-                            }
-                        }
-                    },
-                    rangeSelector: {
-                        buttons: [{
-                                count: 1,
-                                type: 'minute',
-                                text: '1M'
-                            }, {
-                                count: 5,
-                                type: 'minute',
-                                text: '5M'
-                            }, {
-                                type: 'all',
-                                text: 'Tudo'
-                            }],
-                        inputEnabled: false,
-                        selected: 0
-                    },
-                    title: {
-                        text: ' '
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    series: [{
-                            name: 'Nível ',
-                            data: (function () {
-                                // generate an array of random data
-                                var data = [], time = (new Date()).getTime(), i;
-
-                                for (i = -999; i <= 0; i += 1) {
-                                    data.push([
-                                        time + i * 1000,
-                                        Math.round(Math.random() * 100)
-                                    ]);
-                                }
-                                return data;
-                            }())
-                        }]
-                });
-            });
-        });
-        //sinais - ESCRITA TANQUE 1
-        $(function () {
-            $(document).ready(function () {
-                Highcharts.setOptions({
-                    global: {
-                        useUTC: false
-                    }
-                });
-
-                // Create the chart
-                $('#escrita_tq_1').highcharts('StockChart', {
-                    chart: {
-                        events: {
-                            load: function () {
-
-                                // set up the updating of the chart each second
-                                var series = this.series[0];
-                                setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                            y = Math.round(Math.random() * 100);
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
-                            }
-                        }
-                    },
-                    rangeSelector: {
-                        buttons: [{
-                                count: 1,
-                                type: 'minute',
-                                text: '1M'
-                            }, {
-                                count: 5,
-                                type: 'minute',
-                                text: '5M'
-                            }, {
-                                type: 'all',
-                                text: 'Tudo'
-                            }],
-                        inputEnabled: false,
-                        selected: 0
-                    },
-                    title: {
-                        text: ' '
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    series: [{
-                            name: 'Nível ',
-                            data: (function () {
-                                // generate an array of random data
-                                var data = [], time = (new Date()).getTime(), i;
-
-                                for (i = -999; i <= 0; i += 1) {
-                                    data.push([
-                                        time + i * 1000,
-                                        Math.round(Math.random() * 100)
-                                    ]);
-                                }
-                                return data;
-                            }())
-                        }]
-                });
-            });
-        });
-        //sinais - ESCRITA TANQUE 2
-        $(function () {
-            $(document).ready(function () {
-                Highcharts.setOptions({
-                    global: {
-                        useUTC: false
-                    }
-                });
-
-                // Create the chart
-                $('#escrita_tq_2').highcharts('StockChart', {
-                    chart: {
-                        events: {
-                            load: function () {
-
-                                // set up the updating of the chart each second
-                                var series = this.series[0];
-                                setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                            y = Math.round(Math.random() * 100);
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
-                            }
-                        }
-                    },
-                    rangeSelector: {
-                        buttons: [{
-                                count: 1,
-                                type: 'minute',
-                                text: '1M'
-                            }, {
-                                count: 5,
-                                type: 'minute',
-                                text: '5M'
-                            }, {
-                                type: 'all',
-                                text: 'Tudo'
-                            }],
-                        inputEnabled: false,
-                        selected: 0
-                    },
-                    title: {
-                        text: ' '
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    series: [{
-                            name: 'Nível ',
-                            data: (function () {
-                                // generate an array of random data
-                                var data = [], time = (new Date()).getTime(), i;
-
-                                for (i = -999; i <= 0; i += 1) {
-                                    data.push([
-                                        time + i * 1000,
-                                        Math.round(Math.random() * 100)
-                                    ]);
-                                }
-                                return data;
-                            }())
-                        }]
-                });
-            });
-        });
-        //sinais - BOMBA
-        $(function () {
-            $(document).ready(function () {
-                Highcharts.setOptions({
-                    global: {
-                        useUTC: false
-                    }
-                });
-
-                // Create the chart
-                $('#sinal_bomba').highcharts('StockChart', {
-                    chart: {
-                        events: {
-                            load: function () {
-
-                                // set up the updating of the chart each second
-                                var series = this.series[0];
-                                setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                            y = Math.round(Math.random() * 100);
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
-                            }
-                        }
-                    },
-                    rangeSelector: {
-                        buttons: [{
-                                count: 1,
-                                type: 'minute',
-                                text: '1M'
-                            }, {
-                                count: 5,
-                                type: 'minute',
-                                text: '5M'
-                            }, {
-                                type: 'all',
-                                text: 'Tudo'
-                            }],
-                        inputEnabled: false,
-                        selected: 0
-                    },
-                    title: {
-                        text: ' '
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    series: [{
-                            name: 'Nível ',
-                            data: (function () {
-                                // generate an array of random data
-                                var data = [], time = (new Date()).getTime(), i;
-
-                                for (i = -999; i <= 0; i += 1) {
-                                    data.push([
-                                        time + i * 1000,
-                                        Math.round(Math.random() * 100)
-                                    ]);
-                                }
-                                return data;
-                            }())
-                        }]
-                });
             });
         });
         //sinais - CONTROLE
@@ -759,40 +533,30 @@
                     }
                 });
 
-                // Create the chart
-                $('#sinal_controle').highcharts('StockChart', {
+                $('#sinais').highcharts({
                     chart: {
-                        events: {
-                            load: function () {
-
-                                // set up the updating of the chart each second
-                                var series = this.series[0];
-                                setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                            y = Math.round(Math.random() * 100);
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
-                            }
-                        }
-                    },
-                    rangeSelector: {
-                        buttons: [{
-                                count: 1,
-                                type: 'minute',
-                                text: '1M'
-                            }, {
-                                count: 5,
-                                type: 'minute',
-                                text: '5M'
-                            }, {
-                                type: 'all',
-                                text: 'Tudo'
-                            }],
-                        inputEnabled: false,
-                        selected: 0
+//                        type: 'spline',
+                        animation: Highcharts.svg, // don't animate in old IE
+                        marginRight: 10,
+                        height: 280,
                     },
                     title: {
-                        text: ' '
+                        text: ' ',
+                        x: -20 //center
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 150
+                    },
+                    yAxis: {
+                        title: {
+                            text: ' '
+                        },
+                        plotLines: [{
+                                value: 0,
+                                width: 1,
+                                color: '#808080'
+                            }]
                     },
                     exporting: {
                         enabled: false
@@ -800,30 +564,98 @@
                     credits: {
                         enabled: false
                     },
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'top',
+                        margin: 30
+                    },
+                    scrollbar: {
+                        enabled: true
+                    },
+                    rangeSelector: {
+                        selected: 1
+                    },
                     series: [{
-                            name: 'Nível ',
+                            name: 'SP',
+                            color: 'black',
+                            step: true,
                             data: (function () {
                                 // generate an array of random data
-                                var data = [], time = (new Date()).getTime(), i;
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
 
-                                for (i = -999; i <= 0; i += 1) {
-                                    data.push([
-                                        time + i * 1000,
-                                        Math.round(Math.random() * 100)
-                                    ]);
+                                for (i = -29; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: 0
+                                    });
+                                }
+                                return data;
+                            }())
+                        }, {
+                            name: 'PV',
+                            color: 'green',
+                            type: 'spline',
+                            data: (function () {
+                                // generate an array of random data
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
+
+                                for (i = -29; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: 0
+                                    });
+                                }
+                                return data;
+                            }())
+                        }, {
+                            name: 'MV',
+                            color: 'red',
+                            type: 'spline',
+                            data: (function () {
+                                // generate an array of random data
+                                var data = [],
+                                        time = (new Date()).getTime(),
+                                        i;
+
+                                for (i = -29; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: 0
+                                    });
                                 }
                                 return data;
                             }())
                         }]
                 });
+
+                $(document).ready(function () {
+                    var chart = $('#sinais').highcharts();
+                    var sinalSP = chart.series[0];
+                    var sinalPV = chart.series[1];
+                    var sinalMV = chart.series[2];
+                    setInterval(function () {
+                        var x = (new Date()).getTime();
+
+                        var setPoint = Number(document.getElementById("sptq1").value);
+                        var rand = Math.random();
+
+                        sinalSP.addPoint([x, setPoint], true, true);
+                        sinalPV.addPoint([x, rand], true, true);
+                        sinalMV.addPoint([x, rand], true, true);
+                        console.log('X=0 ; Y=' + setPoint);
+                    }, 1000);
+                });
+
             });
         });
 
 
-
         </script>
-
-
 
         <!-- container section start -->
         <section id="container" class="">
@@ -876,507 +708,201 @@
             <section id="main-content" style="margin-left: 0px">
                 <section class="wrapper">
                     <section class="panel">
-                        <header class="panel-heading tab-bg-primary ">
-                            <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a data-toggle="tab" href="#supervisorio">
-                                        <i class="icon_house_alt"></i>
-                                        <span>Home</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a data-toggle="tab" href="#graficos">
-                                        <i class="icon_datareport"></i>
-                                        <span>Gráficos</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a data-toggle="tab" href="#config">
-                                        <i class="icon_desktop"></i>
-                                        <span>Configurações</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a data-toggle="tab" href="#historico">
-                                        <i class="icon_documents_alt"></i>
-                                        <span>Histórico</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a data-toggle="tab" href="#sobre">
-                                        <i class="icon_genius"></i>
-                                        <span>Sobre</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </header>
                         <div class="panel-body">
-                            <div class="tab-content">
-                                <div id="supervisorio" class="tab-pane active">
-                                    <div class="row" style="margin-top: 30px">
-                                        <!--<div class="col-lg-12">-->
-                                        <div class="col-lg-2" style="overflow: hidden;">
-                                            <section class="panel" style="margin-bottom: 5px">
-                                                <header class="panel-heading">
-                                                    Tanque 01
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="chart_tanque1" style="margin: 0 auto"></div>
-                                                    </div>
-                                                    <div class="row" style="padding-top: 10px;">
-                                                        <div class="text-center">
-                                                            <input class="form-control input-sm m-bot15" id="iptq1" onchange="tanque_sup()" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                            <div class="row">
+                                <!--<div class="col-lg-12">-->
+                                <div class="col-lg-2" style="overflow: hidden;">
+                                    <section class="panel" style="margin-bottom: 5px">
+                                        <header class="panel-heading">
+                                            Tanque 01
+                                        </header>
+                                        <div class="panel-body text-center">
+                                            <div class="flot-chart">
+                                                <div id="chart_tanque1" style="margin: 0 auto"></div>
+                                            </div>
+                                            <div class="row" style="padding-top: 10px;">
+                                                <div class="panel-body" style="border: none; padding-bottom: 0px">
+                                                    <form class="form-horizontal " method="get">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">SP</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control input-sm m-bot15" id="sptq1" onchange="tanque_sup()" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <div class="col-lg-2" style="overflow: hidden">
-                                            <section class="panel" style="margin-bottom: 5px">
-                                                <header class="panel-heading">
-                                                    Tanque 02
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="chart_tanque2" style="margin: 0 auto"></div>
-                                                    </div>
-                                                    <div class="row" style="padding-top: 10px;">
-                                                        <div class="text-center">
-                                                            <input class="form-control input-sm m-bot15" id="iptq2" onchange="tanque_inf()" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">PV</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control input-sm m-bot15" id="pvtq1" type="number" disabled="true" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow: hidden">
-                                            <section class="panel" style="margin-bottom: 5px">
-                                                <header class="panel-heading">
-                                                    Bomba
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="chart_bomba" style="margin: 0 auto"></div>
-                                                    </div>
-                                                    <div class="row" style="padding-top: 10px;">
-                                                        <div class="text-center">
-                                                            <input class="form-control input-sm m-bot15" id="voltimetro" onchange="bomba()" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" disabled="true" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">MV</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control input-sm m-bot15" id="mvtq1" type="number" disabled="true" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </form>
                                                 </div>
-                                            </section>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow: hidden">
-                                            <section class="panel" style="margin-bottom: 3px">
-                                                <header class="panel-heading">
-                                                    <div class="col-lg-6" style="padding-left: 0px">
-                                                        Controle
-                                                    </div>
-                                                    <div class="col-lg-6 text-right" id="conectarDiv" style="padding-right: 0px">
-                                                        <span class="label label-danger">DESCONECTADO</span>
-                                                    </div>
-                                                </header>
-                                                <div class="panel-body text-center" style="padding-top: 5px; padding-bottom: 1px">
-                                                    <div class="flot-chart">
+                                    </section>
+                                </div>
+                                <div class="col-lg-2" style="overflow: hidden">
+                                    <section class="panel" style="margin-bottom: 5px">
+                                        <header class="panel-heading">
+                                            Tanque 02
+                                        </header>
+                                        <div class="panel-body text-center">
+                                            <div class="flot-chart">
+                                                <div id="chart_tanque2" style="margin: 0 auto"></div>
+                                            </div>
+                                            <div class="row" style="padding-top: 10px;">
+                                                <div class="panel-body" style="border: none; padding-bottom: 0px">
+                                                    <form class="form-horizontal " method="get">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">SP</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control input-sm m-bot15" id="sptq2" disabled="true" onchange="tanque_inf()" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">PV</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control input-sm m-bot15" id="pvtq2" type="number" disabled="true" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">MV</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control input-sm m-bot15" id="mvtq2" type="number" disabled="true" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8" style="overflow: hidden">
+                                    <section class="panel" style="margin-bottom: 5px">
+                                        <header class="panel-heading">
+                                            Sinais
+                                        </header>
+                                        <div class="panel-body text-center" style="padding: 0px">
+                                            <div class="flot-chart">
+                                                <div id="sinais" style="margin: 0 auto"></div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="panel" style="margin-bottom: 0px">
+                                        <header class="panel-heading">
+                                            Controle
+                                        </header>
+                                        <div class="panel-body text-center" style="padding-bottom: 10px">
+                                            <div class="flot-chart">
+                                                <div id="controle" style="margin: 0 auto">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4">
                                                         <div class="form-group" style="margin-bottom: 3px">
                                                             <div class="row m-bot15" style="margin-bottom: 3px">
                                                                 <div class="col-sm-6 text-right">
-                                                                    <h4>CONECTAR</h4>
+                                                                    <h5>EMERGÊNCIA</h5>
                                                                 </div>
                                                                 <div class="col-sm-6 text-left">
-                                                                    <input type="checkbox" onchange="conectar(this)" data-toggle="switch" />
+                                                                    <input type="checkbox" onchange="" data-toggle="switch" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group" style="margin-bottom: 3px">
                                                             <div class="row m-bot15" style="margin-bottom: 3px">
                                                                 <div class="col-sm-6 text-right">
-                                                                    <h4>EMERGÊNCIA</h4>
-                                                                </div>
-                                                                <div class="col-sm-6 text-left">
-                                                                    <input type="checkbox" onchange="updateTst()" data-toggle="switch" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group" style="margin-bottom: 3px">
-                                                            <div class="row m-bot15" style="margin-bottom: 3px">
-                                                                <div class="col-sm-6 text-right">
-                                                                    <h4>MALHA ABERTA</h4>
+                                                                    <h5>MALHA ABERTA</h5>
                                                                 </div>
                                                                 <div class="col-sm-6 text-left">
                                                                     <input type="checkbox" onchange="malha(this)" checked="" data-toggle="switch" /> 
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                            <div class="row">
-                                                <div class="col-lg-12" style="overflow: hidden">
-                                                    <section class="panel" style="margin-bottom: 5px">
-                                                        <header class="panel-heading">
-                                                            Sinal
-                                                        </header>
-                                                        <div class="panel-body text-center">
-                                                            <select class="form-control input-sm m-bot15">
-                                                                <option>Escolha um sinal...</option>
-                                                                <option>Degrau</option>
-                                                                <option>Senoidal</option>
-                                                                <option>Quadrado</option>
-                                                                <option>Dente de Serra</option>
-                                                                <option>Aleatório</option>
-                                                            </select>
-                                                            <div class="row">
-                                                                <div class="col-lg-6" style="overflow: hidden">
-                                                                    <div class="row">
-                                                                        <div class="text-center">
-                                                                            Amplitute (V)
-                                                                            <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="text-center">
-                                                                            Período (s)
-                                                                            <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6" style="overflow: hidden; padding-left: 0px">
-                                                                    <img alt="" src="img/gambi.jpg">
+                                                            <div class="row m-bot15" style="margin-bottom: 3px">
+                                                                <div id='malha' class="col-sm-6 text-left" style="margin-top: 15px">
+                                                                    <img src="img/malha_aberta.png" style="width: 275px;"> 
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </section>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4" id="div_sinal">
+                                                        <select class="form-control input-sm m-bot15">
+                                                            <option>Escolha um sinal...</option>
+                                                            <option>Degrau</option>
+                                                            <option>Senoidal</option>
+                                                            <option>Quadrado</option>
+                                                            <option>Dente de Serra</option>
+                                                            <option>Aleatório</option>
+                                                        </select>
+                                                        <div class="row m-bot15" style="margin-bottom: 3px">
+                                                            <div class="col-sm-6 text-right">
+                                                                <h5>Amplitude (V)</h5>
+                                                            </div>
+                                                            <div class="col-sm-6 text-left">
+                                                                <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row m-bot15" style="margin-bottom: 3px">
+                                                            <div class="col-sm-6 text-right">
+                                                                <h5>Período (s)</h5>
+                                                            </div>
+                                                            <div class="col-sm-6 text-left">
+                                                                <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row m-bot15" style="margin-bottom: 3px">
+                                                            <div class="col-sm-6 text-right">
+                                                                <h5>Off Set (s)</h5>
+                                                            </div>
+                                                            <div class="col-sm-6 text-left">
+                                                                <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4" id="div_malha_select">
+                                                        <select name="malha_select" class="form-control input-sm m-bot15" disabled="true">
+                                                            <option>Escolha um controle...</option>
+                                                            <option>P</option>
+                                                            <option>PD</option>
+                                                            <option>PI</option>
+                                                            <option>PID</option>
+                                                            <option>PI-D</option>
+                                                        </select>
+                                                        <div class="row m-bot15" style="margin-bottom: 3px">
+                                                            <div class="col-sm-6 text-right">
+                                                                <h5>Kp</h5>
+                                                            </div>
+                                                            <div class="col-sm-6 text-left" id="div_malha_kp">
+                                                                <input class="form-control input-sm m-bot15" id="malha_kp" disabled="true" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row m-bot15" style="margin-bottom: 3px">
+                                                            <div class="col-sm-6 text-right">
+                                                                <h5>Ki</h5>
+                                                            </div>
+                                                            <div class="col-sm-6 text-left" id="div_malha_ki">
+                                                                <input class="form-control input-sm m-bot15" id="malha_ki" disabled="true" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row m-bot15" style="margin-bottom: 3px">
+                                                            <div class="col-sm-6 text-right">
+                                                                <h5>Kd</h5>
+                                                            </div>
+                                                            <div class="col-sm-6 text-left" id="div_malha_kd">
+                                                                <input class="form-control input-sm m-bot15" id="malha_kd" disabled="true" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--</div>-->
-                                    </div>
                                 </div>
-                                <div id="graficos" class="tab-pane">
-                                    <div class="row" style="margin-top: 30px">
-                                        <h4 style="margin-left: 15px">Tanque 01</h4>
-                                        <div class="col-lg-6" style="overflow: hidden;">
-                                            <section class="panel" style="margin-bottom: 0px">
-                                                <header class="panel-heading">
-                                                    Leitura
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="leitura_tq_1" style="height: 250px; margin: 0 auto"></div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <div class="col-lg-6" style="overflow: hidden;">
-                                            <section class="panel" style="margin-bottom: 0px">
-                                                <header class="panel-heading">
-                                                    Escrita
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="escrita_tq_1" style="height: 250px; margin: 0 auto"></div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-top: 5px">
-                                        <h4 style="margin-left: 15px">Tanque 02</h4>
-                                        <div class="col-lg-6" style="overflow: hidden;">
-                                            <section class="panel" style="margin-bottom: 0px">
-                                                <header class="panel-heading">
-                                                    Leitura
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="leitura_tq_2" style="height: 250px; margin: 0 auto"></div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <div class="col-lg-6" style="overflow: hidden;">
-                                            <section class="panel" style="margin-bottom: 0px">
-                                                <header class="panel-heading">
-                                                    Escrita
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="escrita_tq_2" style="height: 250px; margin: 0 auto"></div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-top: 5px">
-                                        <div class="col-lg-6" style="overflow: hidden;">
-                                        <h4>Bomba</h4>
-                                            <section class="panel" style="margin-bottom: 0px">
-                                                <header class="panel-heading">
-                                                    
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="sinal_bomba" style="height: 250px; margin: 0 auto"></div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <div class="col-lg-6" style="overflow: hidden;">
-                                        <h4>Sinal de Controle</h4>
-                                            <section class="panel" style="margin-bottom: 0px">
-                                                <header class="panel-heading">
-                                                    
-                                                </header>
-                                                <div class="panel-body text-center">
-                                                    <div class="flot-chart">
-                                                        <div id="sinal_controle" style="height: 250px; margin: 0 auto"></div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="config" class="tab-pane">Configurações</div>
-                                <div id="historico" class="tab-pane">
-                                    <div class="row" style="margin-top: 30px">
-                                        <div class="col-sm-12">
-                                            <section class="panel">
-                                                <header class="panel-heading">
-                                                    Histórico
-                                                </header>
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Usuário</th>
-                                                            <th>Ação</th>
-                                                            <th>Valor</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Leitura - Tanque 01</td>
-                                                            <td>12 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Leitura - Tanque 01</td>
-                                                            <td>12.0 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Leitura - Tanque 02</td>
-                                                            <td>3.2 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Escrita - Tanque 01</td>
-                                                            <td>15.5 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Escrita - Bomba</td>
-                                                            <td>+2.75 Volts</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>6</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Acionamento de Malha</td>
-                                                            <td>Fechada</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>7</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Leitura - Tanque 01</td>
-                                                            <td>12 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>8</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Leitura - Tanque 01</td>
-                                                            <td>12.0 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>9</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Leitura - Tanque 02</td>
-                                                            <td>3.2 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>10</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Escrita - Tanque 01</td>
-                                                            <td>15.5 cm</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>11</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Escrita - Bomba</td>
-                                                            <td>+2.75 Volts</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>12</td>
-                                                            <td>Rodrigo Silva</td>
-                                                            <td>Acionamento de Malha</td>
-                                                            <td>Fechada</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </section>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="sobre" class="tab-pane">
-                                    <div class="row" style="margin-top: 30px">
-                                        <div class="col-md-4 portlets">
-                                            <!-- Widget -->
-                                            <div class="panel">
-                                                <header class="panel-heading">
-                                                    Equipe
-                                                </header>
-
-                                                <div class="panel-body">
-                                                    <!-- Widget content -->
-                                                    <div class="padd sscroll">
-
-                                                        <ul class="chats">
-
-                                                            <!-- Chat by us. Use the class "by-me". -->
-                                                            <li class="by-me">
-                                                                <!-- Use the class "pull-left" in avatar -->
-                                                                <div class="avatar pull-left">
-                                                                    <img src="img/usr_Augusto.jpg" alt=""/>
-                                                                </div>
-
-                                                                <div class="chat-content">
-                                                                    <!-- In meta area, first include "name" and then "time" -->
-                                                                    <div class="chat-meta">Augusto Matheus<span class="pull-right">Eng. de Computação</span></div>
-                                                                    Vivamus diam elit diam, consectetur dapibus adipiscing elit.
-                                                                    <div class="clearfix"></div>
-                                                                </div>
-                                                            </li> 
-
-                                                            <!-- Chat by other. Use the class "by-other". -->
-                                                            <li class="by-other">
-                                                                <!-- Use the class "pull-right" in avatar -->
-                                                                <div class="avatar pull-right">
-                                                                    <img src="img/usr_marcel.jpg" alt=""/>
-                                                                </div>
-
-                                                                <div class="chat-content">
-                                                                    <!-- In the chat meta, first include "time" then "name" -->
-                                                                    <div class="chat-meta">Eng. de Computação<span class="pull-right">Marcel Ribeiro Dantas</span></div>
-                                                                    Vivamus diam elit diam, consectetur fconsectetur dapibus adipiscing elit.
-                                                                    <div class="clearfix"></div>
-                                                                </div>
-                                                            </li>   
-
-                                                            <li class="by-me">
-                                                                <div class="avatar pull-left">
-                                                                    <img src="img/usr_pablo.jpg" alt=""/>
-                                                                </div>
-
-                                                                <div class="chat-content">
-                                                                    <div class="chat-meta">Pablo Holanda<span class="pull-right">Eng. de Computação</span></div>
-                                                                    Vivamus diam elit diam, consectetur fermentum sed dapibus eget, Vivamus consectetur dapibus adipiscing elit.
-                                                                    <div class="clearfix"></div>
-                                                                </div>
-                                                            </li>  
-
-                                                            <li class="by-other">
-                                                                <!-- Use the class "pull-right" in avatar -->
-                                                                <div class="avatar pull-right">
-                                                                    <img src="img/usr_Pedro.jpg" alt=""/>
-                                                                </div>
-
-                                                                <div class="chat-content">
-                                                                    <!-- In the chat meta, first include "time" then "name" -->
-                                                                    <div class="chat-meta">Eng. de Computação<span class="pull-right">Pedro de Castro</span></div>
-                                                                    Vivamus diam elit diam, consectetur fermentum sed dapibus eget, Vivamus consectetur dapibus adipiscing elit.
-                                                                    <div class="clearfix"></div>
-                                                                </div>
-                                                            </li> 
-                                                            <li class="by-me">
-                                                                <div class="avatar pull-left">
-                                                                    <img src="img/usr_rodrigo.jpg" alt=""/>
-                                                                </div>
-
-                                                                <div class="chat-content">
-                                                                    <div class="chat-meta">Rodrigo Silva<span class="pull-right">Eng. de Computação</span></div>
-                                                                    Vivamus diam elit diam, consectetur fermentum sed dapibus eget, Vivamus consectetur dapibus adipiscing elit.
-                                                                    <div class="clearfix"></div>
-                                                                </div>
-                                                            </li> 
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        </div>
-
-                                        <div class="col-lg-8">
-                                            <!--Project Activity start-->
-                                            <section class="panel">
-                                                <header class="panel-heading">
-                                                    Sobre o Sistema
-                                                </header>
-
-                                                <div class="panel-group m-bot20" id="accordion">
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-heading">
-                                                            <h4 class="panel-title">
-                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                                                    Projeto - Versão 1
-                                                                </a>
-                                                            </h4>
-                                                        </div>
-                                                        <div id="collapseOne" class="panel-collapse collapse in">
-                                                            <div class="panel-body">
-                                                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-heading">
-                                                            <h4 class="panel-title">
-                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                                                    Projeto - Versão 2
-                                                                </a>
-                                                            </h4>
-                                                        </div>
-                                                        <div id="collapseTwo" class="panel-collapse collapse">
-                                                            <div class="panel-body">
-                                                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-heading">
-                                                            <h4 class="panel-title">
-                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                                                                    Projeto - Versão 3
-                                                                </a>
-                                                            </h4>
-                                                        </div>
-                                                        <div id="collapseThree" class="panel-collapse collapse">
-                                                            <div class="panel-body">
-                                                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                            <!--Project Activity end-->
-                                        </div>
-                                    </div><br><br>
-                                </div>
+                                </section>
                             </div>
+                        </div>
                         </div>
                     </section>
                 </section>
@@ -1407,5 +933,6 @@
         <script src="js/form-component.js"></script>
         <!-- custome script for all page -->
         <script src="js/scripts.js"></script>
+
     </body>
 </html>
