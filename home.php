@@ -91,15 +91,75 @@
             {
                 document.getElementById("malha").innerHTML = '<img src="img/malha_aberta.png" style="width: 275px;"> ';
                 $('#div_malha_select :input').attr('disabled', true);
-                $('#div_sinal :input').removeAttr('disabled');
+//                $('#div_sinal :input').removeAttr('disabled');
             } else {
                 document.getElementById("malha").innerHTML = '<img src="img/malha_fechada.png" style="width: 275px;"> ';
                 $('#div_malha_select :input').removeAttr('disabled');
-                $('#div_sinal :input').attr('disabled', true);
+                $('#div_malha_kp :input').attr('disabled', true);
+                $('#div_malha_ki :input').attr('disabled', true);
+                $('#div_malha_kd :input').attr('disabled', true);
+//                $('#div_sinal :input').attr('disabled', true);
             }
 
         }
-        
+
+        function selectCtrl(select) {
+            var index = Number(select.value);
+//            console.log(index);
+            switch (index) {
+                case 0:
+//                    alert('selecione....');
+                    $('#div_malha_kp :input').attr('disabled', true);
+                    $('#div_malha_ki :input').attr('disabled', true);
+                    $('#div_malha_kd :input').attr('disabled', true);
+                    break;
+                case 1:
+//                    alert('caso P');
+                    $('#div_malha_kp :input').removeAttr('disabled');
+                    $('#div_malha_ki :input').attr('disabled', true);
+                    $('#div_malha_kd :input').attr('disabled', true);
+                    break;
+                case 2:
+//                    alert('caso PI');
+                    $('#div_malha_kp :input').removeAttr('disabled');
+                    $('#div_malha_ki :input').removeAttr('disabled');
+                    $('#div_malha_kd :input').attr('disabled', true);
+                    break;
+                case 3:
+//                    alert('caso PD');
+                    $('#div_malha_kp :input').removeAttr('disabled');
+                    $('#div_malha_ki :input').attr('disabled', true);
+                    $('#div_malha_kd :input').removeAttr('disabled');
+                    break;
+                case 4:
+//                    alert('caso PID');
+                    $('#div_malha_kp :input').removeAttr('disabled');
+                    $('#div_malha_ki :input').removeAttr('disabled');
+                    $('#div_malha_kd :input').removeAttr('disabled');
+                    break;
+                case 5:
+//                    alert('caso PI-D');
+                    $('#div_malha_kp :input').removeAttr('disabled');
+                    $('#div_malha_ki :input').removeAttr('disabled');
+                    $('#div_malha_kd :input').removeAttr('disabled');
+                    break;
+            }
+        }
+
+        function selectSgn(select) {
+            var index = Number(select.value);
+
+            if (index === 5) {
+                document.getElementById("input_amplitude").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />'+
+                                                                '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
+                document.getElementById("input_periodo").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />'+
+                                                                '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
+            } else {
+                document.getElementById("input_amplitude").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />'
+                document.getElementById("input_periodo").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />'
+            }
+        }
+
     </script>
 
 
@@ -518,7 +578,7 @@
                         sinalSP.addPoint([x, setPoint], true, true);
                         sinalPV.addPoint([x, 0], true, true);
                         sinalMV.addPoint([x, 0], true, true);
-                        console.log('X=0 ; Y=' + setPoint);
+//                        console.log('X=0 ; Y=' + setPoint);
                     }, 1000);
                 });
 
@@ -647,7 +707,7 @@
                         sinalSP.addPoint([x, setPoint], true, true);
                         sinalPV.addPoint([x, rand], true, true);
                         sinalMV.addPoint([x, rand], true, true);
-                        console.log('X=0 ; Y=' + setPoint);
+//                        console.log('X=0 ; Y=' + setPoint);
                     }, 1000);
                 });
 
@@ -829,19 +889,19 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-4" id="div_sinal">
-                                                        <select class="form-control input-sm m-bot15">
-                                                            <option>Escolha um sinal...</option>
-                                                            <option>Degrau</option>
-                                                            <option>Senoidal</option>
-                                                            <option>Quadrado</option>
-                                                            <option>Dente de Serra</option>
-                                                            <option>Aleatório</option>
+                                                        <select class="form-control input-sm m-bot15" onchange="selectSgn(this)">
+                                                            <option value=0>Escolha um sinal...</option>
+                                                            <option value=1>Degrau</option>
+                                                            <option value=2>Senoidal</option>
+                                                            <option value=3>Quadrado</option>
+                                                            <option value=4>Dente de Serra</option>
+                                                            <option value=5>Aleatório</option>
                                                         </select>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
                                                             <div class="col-sm-6 text-right">
                                                                 <h5>Amplitude (V)</h5>
                                                             </div>
-                                                            <div class="col-sm-6 text-left">
+                                                            <div class="col-sm-6 text-left" style="padding: 0px" id="input_amplitude">
                                                                 <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
@@ -849,7 +909,7 @@
                                                             <div class="col-sm-6 text-right">
                                                                 <h5>Período (s)</h5>
                                                             </div>
-                                                            <div class="col-sm-6 text-left">
+                                                            <div class="col-sm-6 text-left" style="padding: 0px" id="input_periodo">
                                                                 <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
@@ -857,19 +917,19 @@
                                                             <div class="col-sm-6 text-right">
                                                                 <h5>Off Set (s)</h5>
                                                             </div>
-                                                            <div class="col-sm-6 text-left">
+                                                            <div class="col-sm-6 text-left" style="padding: 0px">
                                                                 <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-4" id="div_malha_select">
-                                                        <select name="malha_select" class="form-control input-sm m-bot15" disabled="true">
-                                                            <option>Escolha um controle...</option>
-                                                            <option>P</option>
-                                                            <option>PD</option>
-                                                            <option>PI</option>
-                                                            <option>PID</option>
-                                                            <option>PI-D</option>
+                                                        <select id="malha_select" class="form-control input-sm m-bot15" disabled="true" onchange="selectCtrl(this)">
+                                                            <option value=0>Escolha um controle...</option>
+                                                            <option value=1>P</option>
+                                                            <option value=2>PI</option>
+                                                            <option value=3>PD</option>
+                                                            <option value=4>PID</option>
+                                                            <option value=5>PI-D</option>
                                                         </select>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
                                                             <div class="col-sm-6 text-right">
