@@ -21,6 +21,8 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="css/style-responsive.css" rel="stylesheet" />
 
+        <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
+
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
         <!--[if lt IE 9]>
           <script src="js/html5shiv.js"></script>
@@ -35,6 +37,10 @@
         <!-- nice scroll -->
         <script src="js/jquery.scrollTo.min.js"></script>
         <script src="js/jquery.nicescroll.js" type="text/javascript"></script><!--custome script for all page-->
+
+        <!--<script src="sweetalert-master/dist/sweetalert-dev.js" type="text/javascript"></script>-->
+        <script src="sweetalert-master/dist/sweetalert.min.js" type="text/javascript"></script>
+
 
     </head>
 
@@ -150,18 +156,33 @@
             var index = Number(select.value);
 
             if (index === 5) {
-                document.getElementById("input_amplitude").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />'+
-                                                                '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
-                document.getElementById("input_periodo").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />'+
-                                                                '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
+                document.getElementById("input_amplitude").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />' +
+                        '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
+                document.getElementById("input_periodo").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />' +
+                        '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
             } else {
                 document.getElementById("input_amplitude").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />'
                 document.getElementById("input_periodo").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />'
             }
         }
 
-    </script>
+        function abortar(select) {
+            if (select.checked) {
+                swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this imaginary file!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel plx!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                }
+            }
+        }
 
+    </script>
 
 
     <body>
@@ -714,7 +735,6 @@
             });
         });
 
-
         </script>
 
         <!-- container section start -->
@@ -868,7 +888,7 @@
                                                                     <h5>EMERGÊNCIA</h5>
                                                                 </div>
                                                                 <div class="col-sm-6 text-left">
-                                                                    <input type="checkbox" onchange="" data-toggle="switch" />
+                                                                    <input type="checkbox" id="plantaAbortar" onchange="abortar(this)" data-toggle="switch" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -993,6 +1013,7 @@
         <script src="js/form-component.js"></script>
         <!-- custome script for all page -->
         <script src="js/scripts.js"></script>
+
 
     </body>
 </html>
