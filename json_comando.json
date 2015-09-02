@@ -1,0 +1,18 @@
+{
+  "comando": 1,
+  "malha_aberta": true,
+  "sinal": {
+    "tipo": "senoidal",
+    "amp_max": 10,
+    "amp_min": null,
+    "periodo_max": 0.5,
+    "periodo_min": null,
+    "offset": 4
+  },
+  "controle": {
+    "tipo": "PD",
+    "kp": 10,
+    "ki": null,
+    "kd": 0.5
+  }
+}

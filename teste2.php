@@ -3,16 +3,18 @@
 require('./socket.php');
 require('./socketClient.php');
 
-$socket = new socketClient('10.13.100.109', 8001);
+$socket = new socketClient('179.156.26.52', 8001);
 
 //$packet = array('Pablo'    => 'Muito VIADO',
 //                );
 //$response = $socket->send(json_encode($packet));
 //
-$packet1 = array('OP' => '0',
-    'tensao' => '2.3',
+$packet1 = array('comando' => '0',
+    'sp' => true,
+    'pv' => true,
+    'mv' => true,
 );
-$response .= $socket->send(json_encode($packet1));
+print_r ($socket->send(json_encode($packet1)));
 
 //$packet2 = array('OP' => '1',
 //    'sensor' => '1',

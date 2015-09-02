@@ -61,25 +61,21 @@
 
 //            document.getElementById("conectarDiv").innerHTML = '<span class="label label-success">HOST - 127.0.0.1</span>';
         }
-        function tanque_sup() {
+        function tanque_sup(nivel) {
             var chart = $('#chart_tanque1').highcharts();
-            var point = chart.series[0].points[0]; //,
-            var setPoint = document.getElementById("sptq1").value;
-            var urlMap = "getData.php?tanque=0&nivel=" + setPoint;
+            var point = chart.series[0].points[0];
 //            console.log(urlMap);
 //            $.getJSON(urlMap, function (data) {
-//                point.update(data);
+            point.update(nivel);
 //            });
         }
-        function tanque_inf() {
+        function tanque_inf(nivel) {
             var chart = $('#chart_tanque2').highcharts();
-            var point = chart.series[0].points[0]; //,
-            var setPoint = document.getElementById("sptq2").value;
-            var urlMap = "getData.php?tanque=1&nivel=" + setPoint;
-            console.log(urlMap);
-            $.getJSON(urlMap, function (data) {
-                point.update(data);
-            });
+            var point = chart.series[0].points[0];
+//            console.log(urlMap);
+//            $.getJSON(urlMap, function (data) {
+            point.update(nivel);
+//            });
         }
         function bomba() {
             var chart = $('#chart_bomba').highcharts();
@@ -97,10 +93,12 @@
             {
                 document.getElementById("malha").innerHTML = '<img src="img/malha_aberta.png" style="width: 275px;"> ';
                 $('#div_malha_select :input').attr('disabled', true);
+                $('#div_sptq1 :input').attr('disabled', true);
 //                $('#div_sinal :input').removeAttr('disabled');
             } else {
                 document.getElementById("malha").innerHTML = '<img src="img/malha_fechada.png" style="width: 275px;"> ';
                 $('#div_malha_select :input').removeAttr('disabled');
+                $('#div_sptq1 :input').removeAttr('disabled');
                 $('#div_malha_kp :input').attr('disabled', true);
                 $('#div_malha_ki :input').attr('disabled', true);
                 $('#div_malha_kd :input').attr('disabled', true);
@@ -169,18 +167,55 @@
         function abortar(select) {
             if (select.checked) {
                 swal({
-                    title: "Are you sure?",
-                    text: "You will not be able to recover this imaginary file!",
+                    title: "ABORTAR!",
+                    text: "Você realmente desejar para a planta?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel plx!",
+                    confirmButtonText: "SIM!",
+                    cancelButtonText: "NÃO, CANCELAR!",
                     closeOnConfirm: false,
                     closeOnCancel: false
-                }
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        alert("As operações da planta foram abortadas!");
+                        //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    } else {
+                        alert("O funcionamento continua normalmente!");
+                        //swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    }
+                });
             }
         }
+
+        function updateSinais(sp, pv, mv) {
+            var chart_sgn = $('#sinais').highcharts();
+            var sinalSP = chart_sgn.series[0];
+            var sinalPV = chart_sgn.series[1];
+            var sinalMV = chart_sgn.series[2];
+
+            var x = (new Date()).getTime();
+
+            sinalSP.addPoint([x, sp], true, true);
+            sinalPV.addPoint([x, pv], true, true);
+            sinalMV.addPoint([x, mv], true, true);
+        }
+
+        //script de leitura das variaveis e atualização dos graficos 
+        $(document).ready(function () {
+
+            var urlMap = "getData.php?leitura=true";
+
+            setInterval(function () {
+                $.getJSON(urlMap, function (data) {
+
+                    updateSinais(data.sptq_1, data.pvtq_1, data.mvtq_1);
+                    tanque_sup(data.sptq_1);
+
+                });
+            }, 1000);
+        });
 
     </script>
 
@@ -723,7 +758,8 @@
                         var x = (new Date()).getTime();
 
                         var setPoint = Number(document.getElementById("sptq1").value);
-                        var rand = Math.random();
+                        var rand = 0;
+//                        var rand = Math.random();
 
                         sinalSP.addPoint([x, setPoint], true, true);
                         sinalPV.addPoint([x, rand], true, true);
@@ -805,8 +841,8 @@
                                                     <form class="form-horizontal " method="get">
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">SP</label>
-                                                            <div class="col-sm-10">
-                                                                <input class="form-control input-sm m-bot15" id="sptq1" onchange="tanque_sup()" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            <div class="col-sm-10" id="div_sptq1">
+                                                                <input class="form-control input-sm m-bot15" id="sptq1" onchange="tanque_sup()" disabled="true" type="number" min="0.0" max="28.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                         <div class="form-group">

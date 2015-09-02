@@ -3,7 +3,7 @@
 require('./socket.php');
 require('./socketClient.php');
 
-$socket = new socketClient('localhost', 8001);
+$socket = new socketClient('179.156.26.52', 8001);
 
 
 if (isset($_GET['sensor'])) {
@@ -42,4 +42,14 @@ if (isset($_GET['tanque'])) {
         $nivel = json_decode($response, true)['response'];
         echo json_encode(floatVal($nivel));
     }
+}
+
+
+if (isset($_GET['leitura'])) {
+    $packet = array('comando' => '0',
+//        'sp' => true,
+//        'pv' => true,
+//        'mv' => true,
+    );
+    echo $socket->send(json_encode($packet));
 }
