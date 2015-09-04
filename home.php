@@ -91,14 +91,14 @@
 
             if (chkbox.checked)
             {
-                document.getElementById("malha").innerHTML = '<img src="img/malha_aberta.png" style="width: 275px;"> ';
+//                document.getElementById("malha").innerHTML = '<img src="img/malha_aberta.png" style="width: 275px;"> ';
                 $('#div_malha_select :input').attr('disabled', true);
-                $('#div_sptq1 :input').attr('disabled', true);
+//                $('#div_sptq1 :input').attr('disabled', true);
 //                $('#div_sinal :input').removeAttr('disabled');
             } else {
-                document.getElementById("malha").innerHTML = '<img src="img/malha_fechada.png" style="width: 275px;"> ';
+//                document.getElementById("malha").innerHTML = '<img src="img/malha_fechada.png" style="width: 275px;"> ';
                 $('#div_malha_select :input').removeAttr('disabled');
-                $('#div_sptq1 :input').removeAttr('disabled');
+//                $('#div_sptq1 :input').removeAttr('disabled');
                 $('#div_malha_kp :input').attr('disabled', true);
                 $('#div_malha_ki :input').attr('disabled', true);
                 $('#div_malha_kd :input').attr('disabled', true);
@@ -154,14 +154,54 @@
             var index = Number(select.value);
 
             if (index === 5) {
-                document.getElementById("input_amplitude").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />' +
-                        '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
-                document.getElementById("input_periodo").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />' +
-                        '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
+                document.getElementById("input_amplitude").innerHTML =
+                        '<input class="form-control input-sm m-bot15" id="input_amp_value" type="number" min="0.0" max="30.0" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />' +
+                        '<input class="form-control input-sm m-bot15" id="input_ampmin_value" type="number" min="0.0" max="30.0" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
+
+                document.getElementById("input_periodo").innerHTML =
+                        '<input class="form-control input-sm m-bot15" id="input_per_value" type="number" min="0.0" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />' +
+                        '<input class="form-control input-sm m-bot15" id="input_permin_value" type="number" min="0.0" value="0.0" style="width: 40%; display: inline; margin-bottom: 0px" />';
             } else {
-                document.getElementById("input_amplitude").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />'
-                document.getElementById("input_periodo").innerHTML = '<input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />'
+                document.getElementById("input_amplitude").innerHTML =
+                        '<input class="form-control input-sm m-bot15" id="input_amp_value" type="number" min="0.0" max="30.0" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />';
+
+                document.getElementById("input_periodo").innerHTML =
+                        '<input class="form-control input-sm m-bot15" id="input_per_value" type="number" min="0.0" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />';
             }
+
+            switch (index) {
+                case 0:
+                    $('#input_amplitude :input').attr('disabled', true);
+                    $('#input_periodo :input').attr('disabled', true);
+                    $('#input_offset :input').attr('disabled', true);
+                    break;
+                case 1:
+                    $('#input_amplitude :input').removeAttr('disabled');
+                    $('#input_periodo :input').attr('disabled', true);
+                    $('#input_offset :input').attr('disabled', true);
+                    break;
+                case 2:
+                    $('#input_amplitude :input').removeAttr('disabled');
+                    $('#input_periodo :input').removeAttr('disabled');
+                    $('#input_offset :input').removeAttr('disabled');
+                    break;
+                case 3:
+                    $('#input_amplitude :input').removeAttr('disabled');
+                    $('#input_periodo :input').removeAttr('disabled');
+                    $('#input_offset :input').removeAttr('disabled');
+                    break;
+                case 4:
+                    $('#input_amplitude :input').removeAttr('disabled');
+                    $('#input_periodo :input').removeAttr('disabled');
+                    $('#input_offset :input').removeAttr('disabled');
+                    break;
+                case 5:
+                    $('#input_amplitude :input').removeAttr('disabled');
+                    $('#input_periodo :input').removeAttr('disabled');
+                    $('#input_offset :input').removeAttr('disabled');
+                    break;
+            }
+
         }
 
         function abortar(select) {
@@ -179,11 +219,11 @@
                 },
                 function (isConfirm) {
                     if (isConfirm) {
-                        alert("As operações da planta foram abortadas!");
-                        //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+//                        alert("As operações da planta foram abortadas!");
+                        swal("Operações Canceladas!", "As operações da planta foram abortadas!", "success");
                     } else {
-                        alert("O funcionamento continua normalmente!");
-                        //swal("Cancelled", "Your imaginary file is safe :)", "error");
+//                        alert("O funcionamento continua normalmente!");
+                        swal("Cancelado!", "O funcionamento continua normalmente!", "error");
                     }
                 });
             }
@@ -197,9 +237,15 @@
 
             var x = (new Date()).getTime();
 
-            sinalSP.addPoint([x, sp], true, true);
-            sinalPV.addPoint([x, pv], true, true);
-            sinalMV.addPoint([x, mv], true, true);
+            //Atualizar grafico de sinais
+            sinalSP.addPoint(sp, true, true);
+            sinalPV.addPoint(pv, true, true);
+            sinalMV.addPoint(mv, true, true);
+
+            //Atualizar inputs do tanque
+            document.getElementById("sptq1").value = sp;
+            document.getElementById("pvtq1").value = pv;
+            document.getElementById("mvtq1").value = mv;
         }
 
         //script de leitura das variaveis e atualização dos graficos 
@@ -210,12 +256,110 @@
             setInterval(function () {
                 $.getJSON(urlMap, function (data) {
 
+//                var sptq_1 = (Math.random() * 100) % 3;
+//                var pvtq_1 = (Math.random() * 100) % 2;
+//                var mvtq_1 = (Math.random() * 100) % 7;
+//
+//                console.log("SP = " + sptq_1 + "PV = " + pvtq_1 + "MV = " + mvtq_1)
+//                updateSinais(sptq_1, pvtq_1, mvtq_1);
+//                tanque_sup(pvtq_1);
+
+
+                    console.log("SP = " + data.sptq_1 + "PV = " + data.pvtq_1 + "MV = " + data.mvtq_1);
                     updateSinais(data.sptq_1, data.pvtq_1, data.mvtq_1);
-                    tanque_sup(data.sptq_1);
+                    tanque_sup(data.pvtq_1);
 
                 });
-            }, 1000);
+            }, 500);
         });
+
+        function comandar() {
+            var malha = document.getElementById("chk_malha");
+
+            var sinal = $("#sgn_select :selected").text().toLowerCase();
+            var sinal_idx = $("#sgn_select :selected").val();
+            var ampmax = Number($("#input_amp_value").val());
+            var permax = Number($("#input_per_value").val());
+            var offset = Number($("#input_off_value").val());
+
+            if (sinal_idx === 5) {
+                var ampmin = Number($("#input_ampmin_value").val());
+                var permin = Number($("#input_permin_value").val());
+            } else {
+                var ampmin = 0;
+                var permin = 0;
+            }
+
+            var get = "getData.php?controle=false&malha=true";
+
+//            if (sinal_idx === 0) {
+//                get += "&sinal=false";
+//            } else {
+//                get += "&sinal=true";
+//            }
+
+            var urlMap = "&sgntipo=" + sinal + "&ampmax=" + ampmax + "&ampmin=" + ampmin + "&periodomax=" + permax + "&periodomin=" + permin + "&offset=" + offset;
+
+            // ---- MALHA ABERTA
+            if (malha.checked) {
+                console.log(get + urlMap);
+                $.ajax({
+                    url: get + urlMap,
+                    type: 'post',
+//                    dataType: 'jsonp',
+                    success: function (result) {
+//                        alert(result);
+                    },
+                    error: function (result) {
+                        alert("erro");
+                    }
+                });
+                // ---- MALHA FECHADA
+            } else {
+
+                var ctrl = $("#malha_select :selected").text();
+                var ctrl_idx = $("#malha_select :selected").val();
+
+                // pegando o valor de KP
+                if (ctrl_idx > 0) {
+                    var kp = Number($("#malha_kp").val());
+                } else {
+                    var kp = 0;
+                }
+
+                // pegando o valor de KI
+                if (ctrl_idx == 2 || ctrl_idx > 3) {
+                    var ki = Number($("#malha_ki").val());
+                } else {
+                    var ki = 0;
+                }
+
+                // pegando o valor de KD
+                if (ctrl_idx > 2) {
+                    var kd = Number($("#malha_kd").val());
+                } else {
+                    var kd = 0;
+                }
+
+                var get = "getData.php?controle=true&malha=false";
+                var urlAdd = "&ctrltipo=" + ctrl + "&kp=" + kp + "&ki=" + ki + "&kd=" + kd;
+
+                console.log(get+urlMap+urlAdd);
+
+                $.ajax({
+                    url: get + urlMap + urlAdd,
+                    type: 'post',
+//                    dataType: 'jsonp',
+                    success: function (result) {
+//                        alert(result);
+                    },
+                    error: function (result) {
+                        alert("erro");
+                    }
+                });
+            }
+        }
+
 
     </script>
 
@@ -501,143 +645,56 @@
         });
         //sinais
         $(function () {
-            $(document).ready(function () {
-                Highcharts.setOptions({
-                    global: {
-                        useUTC: false
-                    }
-                });
-
-                // Create the chart
-                $('#sinaisxxx').highcharts('StockChart', {
-                    chart: {
-                        events: {
-                            load: function () {
-
-                                // set up the updating of SP. PV, MV
-                                var series1 = this.series[0];
-                                var series2 = this.series[1];
-                                var series3 = this.series[2];
-                                setInterval(function () {
-//                                    var x = (new Date()).getTime();
-//                                    var y1 = Math.round(Math.random() * 100);
-//                                    var y2 = Math.round(Math.random() * 100);
-//                                    var y3 = Math.round(Math.random() * 100);
-//                                    series1.addPoint([x, y1], true, true);
-//                                    series2.addPoint([x, y2], true, true);
-//                                    series3.addPoint([x, y3], true, true);
-                                }, 2000);
-
-                            }
-                        },
-                        height: 280,
-                    },
-                    rangeSelector: {
-                        buttons: [{
-                                count: 1,
-                                type: 'minute',
-                                text: '1M'
-                            }, {
-                                count: 5,
-                                type: 'minute',
-                                text: '5M'
-                            }, {
-                                type: 'all',
-                                text: 'Tudo'
-                            }],
-                        inputEnabled: false,
-                        selected: 0
-                    },
+            $('#sinais').highcharts({
+                chart: {
+                    animation: Highcharts.svg,
+                    height: 280,
+                },
+                title: {
+                    text: ' ',
+                },
+                yAxis: {
+//                    min: -5,
                     title: {
                         text: ' '
                     },
-                    exporting: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-                        valueDecimals: 2
-                    },
-                    yAxis: {
-                        min: 0,
-                        max: 30,
-                        startOnTick: false,
-                        endOnTick: false
-                    },
-                    series: [{
-                            name: 'SP ',
-                            color: 'black',
-                            data: (function () {
-                                // generate an array of random data
-                                var data = [],
-                                        time = (new Date()).getTime(),
-                                        i;
-
-                                for (i = -29; i <= 0; i += 1) {
-                                    data.push({
-                                        x: time + i * 1000,
-                                        y: 0
-                                    });
-                                }
-                                return data;
-                            }())
-                        }, {
-                            name: 'PV ',
-                            color: 'green',
-                            data: (function () {
-                                // generate an array of random data
-                                var data = [],
-                                        time = (new Date()).getTime(),
-                                        i;
-
-                                for (i = -29; i <= 0; i += 1) {
-                                    data.push({
-                                        x: time + i * 1000,
-                                        y: 0
-                                    });
-                                }
-                                return data;
-                            }())
-                        }, {
-                            name: 'MV ',
-                            color: 'red',
-                            data: (function () {
-                                // generate an array of random data
-                                var data = [],
-                                        time = (new Date()).getTime(),
-                                        i;
-
-                                for (i = -29; i <= 0; i += 1) {
-                                    data.push({
-                                        x: time + i * 1000,
-                                        y: 0
-                                    });
-                                }
-                                return data;
-                            }())
+                    plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
                         }]
-                });
-
-                $(document).ready(function () {
-                    var chart = $('#sinais').highcharts();
-                    var sinalSP = chart.series[0];
-                    var sinalPV = chart.series[1];
-                    var sinalMV = chart.series[2];
-                    setInterval(function () {
-                        var x = (new Date()).getTime();
-
-                        var setPoint = Number(document.getElementById("sptq1").value);
-
-                        sinalSP.addPoint([x, setPoint], true, true);
-                        sinalPV.addPoint([x, 0], true, true);
-                        sinalMV.addPoint([x, 0], true, true);
-//                        console.log('X=0 ; Y=' + setPoint);
-                    }, 1000);
-                });
-
+                },
+                tooltip: {
+                    valueSuffix: 'cm'
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: [{
+                        name: 'SP',
+                        color: 'black',
+                        step: true,
+                        data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                    }, {
+                        name: 'PV',
+                        color: 'red',
+                        type: 'spline',
+                        data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                    }, {
+                        name: 'MV',
+                        color: 'green',
+                        type: 'spline',
+                        data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                    }]
             });
         });
         //sinais - CONTROLE
@@ -649,7 +706,7 @@
                     }
                 });
 
-                $('#sinais').highcharts({
+                $('#sinaisxx').highcharts({
                     chart: {
 //                        type: 'spline',
                         animation: Highcharts.svg, // don't animate in old IE
@@ -749,24 +806,24 @@
                         }]
                 });
 
-                $(document).ready(function () {
-                    var chart = $('#sinais').highcharts();
-                    var sinalSP = chart.series[0];
-                    var sinalPV = chart.series[1];
-                    var sinalMV = chart.series[2];
-                    setInterval(function () {
-                        var x = (new Date()).getTime();
-
-                        var setPoint = Number(document.getElementById("sptq1").value);
-                        var rand = 0;
-//                        var rand = Math.random();
-
-                        sinalSP.addPoint([x, setPoint], true, true);
-                        sinalPV.addPoint([x, rand], true, true);
-                        sinalMV.addPoint([x, rand], true, true);
-//                        console.log('X=0 ; Y=' + setPoint);
-                    }, 1000);
-                });
+//                $(document).ready(function () {
+//                    var chart = $('#sinais').highcharts();
+//                    var sinalSP = chart.series[0];
+//                    var sinalPV = chart.series[1];
+//                    var sinalMV = chart.series[2];
+//                    setInterval(function () {
+//                        var x = (new Date()).getTime();
+//
+//                        var setPoint = Number(document.getElementById("sptq1").value);
+//                        var rand = 0;
+////                        var rand = Math.random();
+//
+//                        sinalSP.addPoint([x, setPoint], true, true);
+//                        sinalPV.addPoint([x, rand], true, true);
+//                        sinalMV.addPoint([x, rand], true, true);
+////                        console.log('X=0 ; Y=' + setPoint);
+//                    }, 1000);
+//                });
 
             });
         });
@@ -783,7 +840,7 @@
                 </div>
 
                 <!--logo start-->
-                <a href="index.html" class="logo">iPump <span class="lite">Supervisório</span></a>
+                <a href="index.html" class="logo">iPump <span class="lite">Supervisório</span> ( Turma 3 - Grupo 3 )</a>
                 <!--logo end-->
 
                 <div class="top-nav notification-row">                
@@ -823,7 +880,7 @@
             <!--main content start-->
             <section id="main-content" style="margin-left: 0px">
                 <section class="wrapper">
-                    <section class="panel">
+                    <section class="panel" style="margin-bottom: 0px">
                         <div class="panel-body">
                             <div class="row">
                                 <!--<div class="col-lg-12">-->
@@ -934,23 +991,35 @@
                                                                     <h5>MALHA ABERTA</h5>
                                                                 </div>
                                                                 <div class="col-sm-6 text-left">
-                                                                    <input type="checkbox" onchange="malha(this)" checked="" data-toggle="switch" /> 
-                                                                </div>
-                                                            </div>
-                                                            <div class="row m-bot15" style="margin-bottom: 3px">
-                                                                <div id='malha' class="col-sm-6 text-left" style="margin-top: 15px">
-                                                                    <img src="img/malha_aberta.png" style="width: 275px;"> 
+                                                                    <input type="checkbox" id="chk_malha" onchange="malha(this)" checked="" data-toggle="switch" /> 
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <!--                                                        <div class="form-group" style="margin-bottom: 3px">
+                                                                                                                    <div class="row m-bot15" style="margin-bottom: 3px">
+                                                                                                                        <div class="col-sm-6 text-right">
+                                                                                                                            <h5>ANTI WIND-UP</h5>
+                                                                                                                        </div>
+                                                                                                                        <div class="col-sm-6 text-left">
+                                                                                                                            <input type="checkbox" id="windup" onchange="" data-toggle="switch" />
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>-->
+                                                        <!--<div class="form-group" style="margin-bottom: 3px">-->
+                                                        <div class="row m-bot15" style="margin-bottom: 3px">
+                                                            <div class="col-sm-offset-1 col-sm-10">
+                                                                <a class="btn btn-warning btn-lg" onclick="comandar()"  style="width: 100%; margin-top: 25px">Enviar</a>
+                                                            </div>
+                                                        </div>
+                                                        <!--</div>-->
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-4" id="div_sinal">
-                                                        <select class="form-control input-sm m-bot15" onchange="selectSgn(this)">
+                                                        <select class="form-control input-sm m-bot15" id="sgn_select" onchange="selectSgn(this)">
                                                             <option value=0>Escolha um sinal...</option>
                                                             <option value=1>Degrau</option>
                                                             <option value=2>Senoidal</option>
                                                             <option value=3>Quadrado</option>
-                                                            <option value=4>Dente de Serra</option>
+                                                            <option value=4>Serra</option>
                                                             <option value=5>Aleatório</option>
                                                         </select>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
@@ -958,7 +1027,7 @@
                                                                 <h5>Amplitude (V)</h5>
                                                             </div>
                                                             <div class="col-sm-6 text-left" style="padding: 0px" id="input_amplitude">
-                                                                <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                                <input class="form-control input-sm m-bot15" id="input_amp_value" type="number" min="0.0" max="30.0" value="0.0" disabled="true" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
@@ -966,15 +1035,15 @@
                                                                 <h5>Período (s)</h5>
                                                             </div>
                                                             <div class="col-sm-6 text-left" style="padding: 0px" id="input_periodo">
-                                                                <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                                <input class="form-control input-sm m-bot15" id="input_per_value" type="number" min="0.0" value="0.0" disabled="true" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
                                                             <div class="col-sm-6 text-right">
                                                                 <h5>Off Set (s)</h5>
                                                             </div>
-                                                            <div class="col-sm-6 text-left" style="padding: 0px">
-                                                                <input class="form-control input-sm m-bot15" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                            <div class="col-sm-6 text-left" style="padding: 0px" id="input_offset">
+                                                                <input class="form-control input-sm m-bot15" id="input_off_value" type="number" min="-30.0" max="30.0" value="0.0" disabled="true" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -986,13 +1055,14 @@
                                                             <option value=3>PD</option>
                                                             <option value=4>PID</option>
                                                             <option value=5>PI-D</option>
+                                                            <option value=6>Anti Windup</option>
                                                         </select>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
                                                             <div class="col-sm-6 text-right">
                                                                 <h5>Kp</h5>
                                                             </div>
                                                             <div class="col-sm-6 text-left" id="div_malha_kp">
-                                                                <input class="form-control input-sm m-bot15" id="malha_kp" disabled="true" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                                <input class="form-control input-sm m-bot15" id="malha_kp" disabled="true" type="number" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
@@ -1000,7 +1070,7 @@
                                                                 <h5>Ki</h5>
                                                             </div>
                                                             <div class="col-sm-6 text-left" id="div_malha_ki">
-                                                                <input class="form-control input-sm m-bot15" id="malha_ki" disabled="true" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                                <input class="form-control input-sm m-bot15" id="malha_ki" disabled="true" type="number" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                         <div class="row m-bot15" style="margin-bottom: 3px">
@@ -1008,7 +1078,7 @@
                                                                 <h5>Kd</h5>
                                                             </div>
                                                             <div class="col-sm-6 text-left" id="div_malha_kd">
-                                                                <input class="form-control input-sm m-bot15" id="malha_kd" disabled="true" type="number" min="-4.0" max="4.0" step="0.1" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
+                                                                <input class="form-control input-sm m-bot15" id="malha_kd" disabled="true" type="number" value="0.0" style="width: 80%; display: inline; margin-bottom: 0px" />
                                                             </div>
                                                         </div>
                                                     </div>
